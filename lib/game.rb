@@ -7,8 +7,8 @@ class Game
     '2' => 'red',
     '3' => 'green',
     '4' => 'yellow',
-    '5' => 'purple',
-    '6' => 'orange'
+    '5' => 'magenta',
+    '6' => 'cyan'
   }.freeze
 
   def initialize
@@ -28,5 +28,25 @@ class Game
   # end
   def correct?
     color_code(cb.guess) == color_code
+  end
+
+  def cb_turn
+    puts cb.prompt
+    colorboard
+    # validate
+    correct? ? true : false # else go to other turn not false
+  end
+
+  # display the six choosable numbers color coated
+  def colorboard
+    puts "Choose 4 of the following numbers:\n"
+    symbs = vals_and_symbs
+    symbs.each_with_index { |symb, index| print "#{index + 1}\t".colorize(symb) }
+    puts
+    # cb.guess
+  end
+
+  def vals_and_symbs(list = NUM_TO_COLOR.values)
+    list.map { |vals| vals.to_sym }
   end
 end
