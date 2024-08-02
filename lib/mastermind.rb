@@ -4,16 +4,17 @@ class MasterMind < Player
 
   def initialize
     super
-    prompt
-    #   super
-    #   self.code = make_code
+    puts "#{TYPE} will encode"
+    # prompt
+    # perhaps self.cpu implemented in Player class
+    # self.cpu = sets if mastermind is real or not
   end
 
   def make_code
-    [1, 2, 3, 4, 5, 6]
+    Array.new(4) { rand(1..6).to_s }
   end
 
   def prompt
-    super(TYPE)
+    puts "#{super(TYPE)}. What to do?"
   end
 end
