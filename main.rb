@@ -6,5 +6,7 @@ require_relative 'lib/mastermind'
 require_relative 'lib/codebreaker'
 
 game = Game.new
+# p game.code
+# p game.color_code(game.code)
 puts
-p game.cb_turn
+game.cb_turn
