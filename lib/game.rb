@@ -32,7 +32,7 @@ class Game
   def cb_turn
     puts cb.prompt
     colorboard
-    correct? ? true : mm_turn # update_turn # I think it is trying to return mm_turn and
+    correct? ? win : update_turn # I think it is trying to return mm_turn and
   end
 
   # display the six choosable numbers color coated
@@ -50,16 +50,33 @@ class Game
   # it is possible we do not need a turn variable if this switches users
   def update_turn
     self.turn += 1
-    turn.even? ? cb_turn : mm_turn
+    if self.turn > 22
+      lose
+    else
+      turn.even? ? cb_turn : mm_turn
+    end
   end
 
   def mm_turn
-    self.turn += 1
+    # self.turn += 1
     puts mm.prompt
     # ***I WANT TO DISPLAY NUMBERS IN COLOR
     # p vals_and_symbs(guess)
+    puts '****************************************************************'
     guess.each { |symb| print "#{symb}\t".colorize(NUM_TO_COLOR[symb].to_sym) }
+    puts "\n****************************************************************"
     puts
     mm.give_response(code, guess)
+    update_turn
+  end
+
+  def win
+    puts '***YOU WIN****'
+    puts guess
+  end
+
+  def lose
+    puts '***YOU LOSE****'
+    puts code
   end
 end
