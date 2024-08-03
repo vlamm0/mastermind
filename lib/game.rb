@@ -12,12 +12,22 @@ class Game
   }.freeze
 
   def initialize
-    puts "***MASTER MIND***\n\n"
-    self.mm = MasterMind.new
-    self.cb = CodeBreaker.new
-    self.code = mm.make_code
-    self.turn = 0
-    self.guess = ''
+    self.mm, self.cb, self.turn, self.guess = player_init
+    self.code = mm.cpu ? mm.cpu_make_code : mm.enter_code # logic to decide what the code is mm.make_code
+    cb_turn
+  end
+
+  def player_init
+    puts "***LET'S PLAY MASTERMIND***\n\n"
+    select = select_screen
+    [MasterMind.new(select[1]), CodeBreaker.new(select[0]), 0, '']
+  end
+
+  def select_screen
+    puts 'Press 1 for Master_Mind and 2 for Code_Breaker'
+    select = gets.chomp
+    select_screen if select != '1' && select != '2'
+    select == '1' ? [true, false] : [false, true]
   end
 
   def color_code(combo = code)
@@ -25,7 +35,7 @@ class Game
   end
 
   def correct?
-    self.guess = cb.guess
+    self.guess = cb.enter_code
     color_code(guess) == color_code
   end
 

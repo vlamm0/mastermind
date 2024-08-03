@@ -1,8 +1,8 @@
 # codebreaker
 class CodeBreaker < Player
   TYPE = 'Code_Breaker'.freeze
-  def initialize
-    super
+  def initialize(bool)
+    super(bool)
     puts "#{TYPE} will decode"
     # prompt
   end
@@ -11,15 +11,16 @@ class CodeBreaker < Player
     super(TYPE)
   end
 
-  def guess
-    guesses = gets.chomp.split('')
-    validate(guesses)
-  end
+  # could refactor guess and validate to be a player class
+  # def guess
+  #   guesses = gets.chomp.split('')
+  #   validate(guesses)
+  # end
 
-  def validate(guesses)
-    return guesses if guesses.length == 4 && guesses.all? { |guess| guess.to_i <= 6 && guess.to_i >= 1 }
+  # def validate(guesses)
+  #   return guesses if guesses.length == 4 && guesses.all? { |guess| guess.to_i <= 6 && guess.to_i >= 1 }
 
-    puts '***INVALID RESPONSE PICK 4 NUMBERS (NO SPACES/COMMAS)'
-    guess
-  end
+  #   puts '***INVALID RESPONSE PICK 4 NUMBERS (NO SPACES/COMMAS)'
+  #   guess
+  # end
 end
