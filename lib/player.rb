@@ -2,12 +2,21 @@
 class Player
   attr_accessor :cpu
 
-  def initialize(bool)
-    self.cpu = bool
-  end
+  NUM_TO_COLOR = {
+    '1' => 'blue',
+    '2' => 'red',
+    '3' => 'green',
+    '4' => 'yellow',
+    '5' => 'magenta',
+    '6' => 'cyan'
+  }.freeze
 
   def prompt(type)
     "#{type}'s turn"
+  end
+
+  def cpu_make_code
+    Array.new(4) { rand(1..6).to_s }
   end
 
   def enter_code

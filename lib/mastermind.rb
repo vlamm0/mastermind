@@ -2,16 +2,14 @@
 class MasterMind < Player
   TYPE = 'Master_Mind'.freeze
 
+  # I can default cpu to true, get rid of player cpu init, and pass only true value
   def initialize(bool)
-    super(bool)
+    super()
+    self.cpu = bool
     puts "#{TYPE} will encode"
     # prompt
     # perhaps self.cpu implemented in Player class
     # self.cpu = sets if mastermind is real or not
-  end
-
-  def cpu_make_code
-    Array.new(4) { rand(1..6).to_s }
   end
 
   def prompt

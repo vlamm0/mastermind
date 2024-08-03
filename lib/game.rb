@@ -1,6 +1,6 @@
 # game
 class Game
-  attr_accessor :code, :mm, :turn, :cb, :guess
+  attr_accessor :code, :mm, :turn, :cb
 
   NUM_TO_COLOR = {
     '1' => 'blue',
@@ -12,7 +12,7 @@ class Game
   }.freeze
 
   def initialize
-    self.mm, self.cb, self.turn, self.guess = player_init
+    self.mm, self.cb, self.turn = player_init
     self.code = mm.cpu ? mm.cpu_make_code : mm.enter_code # logic to decide what the code is mm.make_code
     cb_turn
   end
@@ -20,7 +20,7 @@ class Game
   def player_init
     puts "***LET'S PLAY MASTERMIND***\n\n"
     select = select_screen
-    [MasterMind.new(select[1]), CodeBreaker.new(select[0]), 0, '']
+    [MasterMind.new(select[0]), CodeBreaker.new(select[1]), 0]
   end
 
   def select_screen
@@ -30,32 +30,35 @@ class Game
     select == '1' ? [true, false] : [false, true]
   end
 
+  # only good for production | delete
   def color_code(combo = code)
     combo.reduce([]) { |colors, digit| colors.push(NUM_TO_COLOR[digit]) }
   end
 
+  # this needs to be changed to a simple self.guess == cb.enter_code
   def correct?
-    self.guess = cb.enter_code
-    color_code(guess) == color_code
+    code == cb.guess
+    # color_code(guess) == color_code
   end
 
   def cb_turn
-    puts cb.prompt
-    colorboard
+    # puts cb.prompt
+    # colorboard
+    cb.go #= variable pass to correct?
     correct? ? win : update_turn # I think it is trying to return mm_turn and
   end
 
   # display the six choosable numbers color coated
-  def colorboard
-    puts "Choose 4 of the following numbers:\n"
-    symbs = vals_and_symbs
-    symbs.each_with_index { |symb, index| print "#{index + 1}\t".colorize(symb) }
-    puts
-  end
+  # def colorboard
+  #   puts "Choose 4 of the following numbers:\n"
+  #   symbs = vals_and_symbs
+  #   symbs.each_with_index { |symb, index| print "#{index + 1}\t".colorize(symb) }
+  #   puts
+  # end
 
-  def vals_and_symbs(list = NUM_TO_COLOR.values)
-    list.map(&:to_sym)
-  end
+  # def vals_and_symbs(list = NUM_TO_COLOR.values)
+  #   list.map(&:to_sym)
+  # end
 
   # it is possible we do not need a turn variable if this switches users
   def update_turn
@@ -73,16 +76,16 @@ class Game
     # ***I WANT TO DISPLAY NUMBERS IN COLOR
     # p vals_and_symbs(guess)
     puts '****************************************************************'
-    guess.each { |symb| print "#{symb}\t".colorize(NUM_TO_COLOR[symb].to_sym) }
+    cb.guess.each { |symb| print "#{symb}\t".colorize(NUM_TO_COLOR[symb].to_sym) }
     puts "\n****************************************************************"
     puts
-    mm.give_response(code, guess)
+    mm.give_response(code, cb.guess)
     update_turn
   end
 
   def win
     puts '***YOU WIN****'
-    puts guess
+    puts code
   end
 
   def lose
