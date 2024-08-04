@@ -8,12 +8,14 @@ class Game
     cb_turn
   end
 
+  # helps initialize mastermind, codebreaker, and the turn
   def player_init
     puts "***LET'S PLAY MASTERMIND***\n\n"
     select = select_screen
     [MasterMind.new(select[1]), CodeBreaker.new(select[0]), 0]
   end
 
+  # allows user to choose mastermind or codebreaker
   def select_screen
     puts 'Press 1 for Master_Mind and 2 for Code_Breaker'
     select = gets.chomp
@@ -21,23 +23,18 @@ class Game
     select == '1' ? [true, false] : [false, true]
   end
 
-  # only good for production | delete
-  def color_code(combo = code)
-    combo.reduce([]) { |colors, digit| colors.push(NUM_TO_COLOR[digit]) }
-  end
-
-  # this needs to be changed to a simple self.guess == cb.enter_code
   def correct?
     code == cb.guess
   end
 
+  # handles codebreaker turn
   def cb_turn
     puts "\nTURNS LEFT:  #{(24 - turn) / 2}"
     cb.go(mm.feedback)
-    correct? ? win : update_turn
+    correct? ? win(cb.cpu) : update_turn
   end
 
-  # it is possible we do not need a turn variable if this switches users
+  # updates turn# and switches between codebreaker and mastermind turns
   def update_turn
     self.turn += 1
     if self.turn > 22
@@ -47,15 +44,15 @@ class Game
     end
   end
 
+  # handles mastermind's turn
   def mm_turn
-    testdrive = cb.data
-    mm.feedback = mm.give_response(code, testdrive)
+    mm.feedback = mm.give_response(code, cb.data)
     mm.display_feedback
     update_turn
   end
 
-  def win
-    puts '***YOU WIN****'
+  def win(cpu)
+    puts cpu ? '***YOU LOSE***' : '***YOU WIN***'
     puts cb.data
   end
 

@@ -11,11 +11,13 @@ class CodeBreaker < Player
     self.options = possible_codes if bool
   end
 
+  # manages codebreakers turn
   def go(feedback)
     colorboard
     self.guess = (cpu ? cpu_crack(feedback) : enter_code)
   end
 
+  # displays a list of posible digits to choose from
   def colorboard
     puts "Choose 4 of the following numbers:\n"
     symbs = NUM_TO_COLOR.values.map(&:to_sym)
@@ -23,8 +25,8 @@ class CodeBreaker < Player
     puts
   end
 
+  # gives random code or the first possible code given feedback from mastermind
   def cpu_crack(feedback)
-    puts 'ENTER 4 DIGIT CODE 1-6'
     if feedback == false
       cpu_make_code
     else
@@ -32,6 +34,7 @@ class CodeBreaker < Player
     end
   end
 
+  # list of possible combinations 1111-6666 for initial options
   def possible_codes
     option = []
     (1111..6666).each do |code|
@@ -40,13 +43,14 @@ class CodeBreaker < Player
     option
   end
 
+  # have list of possible combos
+  # pass combos to the give response func as guess and using the previous guess as the code
   def filter_possible_codes(feedback)
     self.options = options.select { |option| give_response(guess, option.split('')) == feedback }
     options[0].split('')
   end
 
-  # have list of possible combos
-  # pass combos to the give response func as guess and using the previous guess as the code
+  # displays and retrieves codebreaker's guess
   def data
     puts "\nCODE BREAKER CHOOSES"
     puts '****************************************************************'

@@ -3,7 +3,6 @@ class MasterMind < Player
   TYPE = 'Master_Mind'.freeze
   attr_accessor :feedback
 
-  # I can default cpu to true, get rid of player cpu init, and pass only true value
   def initialize(bool)
     super()
     self.cpu = bool
@@ -11,6 +10,7 @@ class MasterMind < Player
     puts "#{TYPE} will encode"
   end
 
+  # displays feedback given codebreakers guess
   def display_feedback
     puts "CORRECT: #{feedback[0]}".colorize(:red)
     puts "COLOR: #{feedback[1]}"
