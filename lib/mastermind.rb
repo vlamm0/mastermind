@@ -11,10 +11,6 @@ class MasterMind < Player
     puts "#{TYPE} will encode"
   end
 
-  def prompt
-    puts "#{super(TYPE)}. What to do?"
-  end
-
   def display_feedback
     puts "CORRECT: #{feedback[0]}".colorize(:red)
     puts "COLOR: #{feedback[1]}"

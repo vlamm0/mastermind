@@ -11,10 +11,6 @@ class Player
     '6' => 'cyan'
   }.freeze
 
-  def prompt(type)
-    "#{type}'s turn"
-  end
-
   def cpu_make_code
     Array.new(4) { rand(1..6).to_s }
   end

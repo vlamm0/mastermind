@@ -28,17 +28,13 @@ class Game
 
   # this needs to be changed to a simple self.guess == cb.enter_code
   def correct?
-    # puts "Guess @ game #{cb.guess}"
     code == cb.guess
-    # color_code(guess) == color_code
   end
 
   def cb_turn
-    # puts cb.prompt
-    # colorboard
-    cb.go(mm.feedback) #= variable pass to correct?
-    # cb.display_feedback if cb.feedback != false
-    correct? ? win : update_turn # I think it is trying to return mm_turn and
+    puts "\nTURNS LEFT:  #{(24 - turn) / 2}"
+    cb.go(mm.feedback)
+    correct? ? win : update_turn
   end
 
   # it is possible we do not need a turn variable if this switches users
@@ -52,27 +48,15 @@ class Game
   end
 
   def mm_turn
-    # self.turn += 1
-    # puts mm.prompt
-    # ***I WANT TO DISPLAY NUMBERS IN COLOR
-    # p vals_and_symbs(guess)
-    # #*****
-    # puts '****************************************************************'
-    # cb.guess.each { |symb| print "#{symb}\t".colorize(NUM_TO_COLOR[symb].to_sym) }
-    # puts "\n****************************************************************"
-    # puts
-    # *****
     testdrive = cb.data
     mm.feedback = mm.give_response(code, testdrive)
     mm.display_feedback
-    # puts "GUESS @ mm turn after #{cb.guess}"
-    # puts "^^^#{mm.feedback}"
     update_turn
   end
 
   def win
     puts '***YOU WIN****'
-    puts code
+    puts cb.data
   end
 
   def lose

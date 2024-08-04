@@ -7,43 +7,14 @@ class CodeBreaker < Player
     super()
     self.cpu = bool
     self.guess = []
-    puts "#{TYPE} will decode"
-    puts
-    # if bool then we will exe a function that generates a list of 1296 possible codes
+    puts "#{TYPE} will decode\n"
     self.options = possible_codes if bool
   end
 
-  def prompt
-    super(TYPE)
-  end
-
-  # could refactor guess and validate to be a player class
-  # def guess
-  #   guesses = gets.chomp.split('')
-  #   validate(guesses)
-  # end
-
-  # def validate(guesses)
-  #   return guesses if guesses.length == 4 && guesses.all? { |guess| guess.to_i <= 6 && guess.to_i >= 1 }
-
-  #   puts '***INVALID RESPONSE PICK 4 NUMBERS (NO SPACES/COMMAS)'
-  #   guess
-  # end
   def go(feedback)
-    # puts prompt
-    # puts "***MM FEEDBACK #{feedback}"
     colorboard
-    # if player
     self.guess = (cpu ? cpu_crack(feedback) : enter_code)
-    # display_feedback if feedback != false
-    # puts "The guess at self is #{guess}"
-    # if cpu self.guess = cpu_enter_code(feedback)
   end
-
-  # def display_feedback
-  #   puts "CORRECT: #{feedback[0]}".colorize(:red)
-  #   puts "COLOR: #{feedback[1]}"
-  # end
 
   def colorboard
     puts "Choose 4 of the following numbers:\n"
@@ -70,13 +41,7 @@ class CodeBreaker < Player
   end
 
   def filter_possible_codes(feedback)
-    # p options
-    # tmp = options
-    # puts "$%$%$This is guess #{guess}"
-    # puts "& This is feedback before filter #{feedback}"
-    # self.options = options.select { |option| give_response(guess, option) == feedback }
     self.options = options.select { |option| give_response(guess, option.split('')) == feedback }
-    # p options[0].split('')
     options[0].split('')
   end
 
@@ -86,8 +51,7 @@ class CodeBreaker < Player
     puts "\nCODE BREAKER CHOOSES"
     puts '****************************************************************'
     guess.each { |symb| print "#{symb}\t".colorize(NUM_TO_COLOR[symb].to_sym) }
-    puts "\n****************************************************************"
-    puts
+    puts "\n****************************************************************\n"
     guess
   end
 end
