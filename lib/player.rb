@@ -36,11 +36,6 @@ class Player
     tmp = guess.map(&:clone)
     red = handle_red(code, tmp).length
     white = handle_white(code, tmp).length - red
-    # return these
-    # puts "CORRECT: #{red}".colorize(:red)
-    # puts "COLOR: #{white}"
-    # self.feedback = [red, white]
-    p feedback
     [red, white]
   end
 

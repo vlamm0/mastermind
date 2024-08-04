@@ -8,6 +8,7 @@ class CodeBreaker < Player
     self.cpu = bool
     self.guess = []
     puts "#{TYPE} will decode"
+    puts
     # if bool then we will exe a function that generates a list of 1296 possible codes
     self.options = possible_codes if bool
   end
@@ -29,14 +30,20 @@ class CodeBreaker < Player
   #   guess
   # end
   def go(feedback)
-    puts prompt
-    puts "***MM FEEDBACK #{feedback}"
+    # puts prompt
+    # puts "***MM FEEDBACK #{feedback}"
     colorboard
     # if player
     self.guess = (cpu ? cpu_crack(feedback) : enter_code)
-    puts "The guess at self is #{guess}"
+    # display_feedback if feedback != false
+    # puts "The guess at self is #{guess}"
     # if cpu self.guess = cpu_enter_code(feedback)
   end
+
+  # def display_feedback
+  #   puts "CORRECT: #{feedback[0]}".colorize(:red)
+  #   puts "COLOR: #{feedback[1]}"
+  # end
 
   def colorboard
     puts "Choose 4 of the following numbers:\n"
@@ -63,16 +70,24 @@ class CodeBreaker < Player
   end
 
   def filter_possible_codes(feedback)
-    p options
+    # p options
     # tmp = options
-    puts "$%$%$This is guess #{guess}"
-    puts "& This is feedback before filter #{feedback}"
+    # puts "$%$%$This is guess #{guess}"
+    # puts "& This is feedback before filter #{feedback}"
     # self.options = options.select { |option| give_response(guess, option) == feedback }
     self.options = options.select { |option| give_response(guess, option.split('')) == feedback }
-    p options[0].split('')
+    # p options[0].split('')
     options[0].split('')
   end
+
   # have list of possible combos
   # pass combos to the give response func as guess and using the previous guess as the code
-  #
+  def data
+    puts "\nCODE BREAKER CHOOSES"
+    puts '****************************************************************'
+    guess.each { |symb| print "#{symb}\t".colorize(NUM_TO_COLOR[symb].to_sym) }
+    puts "\n****************************************************************"
+    puts
+    guess
+  end
 end
