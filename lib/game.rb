@@ -20,7 +20,7 @@ class Game
   def player_init
     puts "***LET'S PLAY MASTERMIND***\n\n"
     select = select_screen
-    [MasterMind.new(select[0]), CodeBreaker.new(select[1]), 0]
+    [MasterMind.new(select[1]), CodeBreaker.new(select[0]), 0]
   end
 
   def select_screen
@@ -37,6 +37,7 @@ class Game
 
   # this needs to be changed to a simple self.guess == cb.enter_code
   def correct?
+    puts "Guess @ game #{cb.guess}"
     code == cb.guess
     # color_code(guess) == color_code
   end
@@ -44,7 +45,7 @@ class Game
   def cb_turn
     # puts cb.prompt
     # colorboard
-    cb.go #= variable pass to correct?
+    cb.go(mm.feedback) #= variable pass to correct?
     correct? ? win : update_turn # I think it is trying to return mm_turn and
   end
 
@@ -79,7 +80,11 @@ class Game
     cb.guess.each { |symb| print "#{symb}\t".colorize(NUM_TO_COLOR[symb].to_sym) }
     puts "\n****************************************************************"
     puts
-    mm.give_response(code, cb.guess)
+    puts "GUESS @ mm turn b4 #{cb.guess}"
+    testdrive = cb.guess.map(&:clone)
+    mm.feedback = mm.give_response(code, testdrive)
+    puts "GUESS @ mm turn after #{cb.guess}"
+    puts "^^^#{mm.feedback}"
     update_turn
   end
 
